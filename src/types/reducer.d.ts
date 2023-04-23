@@ -25,7 +25,7 @@ type Actions = typeof ACTIONS[keyof typeof ACTIONS];
 
 // Or, This option type the action entry in the reducer 
 export type Action =
-  | { type: "INTERCHANGE_LANGUAGES", payload: any }
+  | { type: "INTERCHANGE_LANGUAGES" }
   | { type: "SET_FROM_LANGUAGE", payload: FromLanguage }
   | { type: "SET_TO_LANGUAGE", payload: Language }
   | { type: 'SET_FROM_TEXT', payload: string }

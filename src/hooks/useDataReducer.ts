@@ -13,7 +13,6 @@ const initialState: State = {
 };
 
 function reducer(state: State, action: Action): State {
-
   if (action.type === "INTERCHANGE_LANGUAGES") {
     if (state.fromLanguage === "auto") return state;
     return {
@@ -27,56 +26,43 @@ function reducer(state: State, action: Action): State {
 
   if (action.type === "SET_FROM_LANGUAGE") {
     if (state.fromLanguage === action.payload) return state;
-      const loading = state.fromText !== "";
-      return {
-        ...state,
-        fromLanguage: payload,
-        result: "",
-        loading,
-      };
+    const loading = state.fromText !== "";
+    return {
+      ...state,
+      fromLanguage: action.payload,
+      result: "",
+      loading,
+    };
   }
-  switch (action.type) {
-    case "INTERCHANGE_LANGUAGES":
-      if (state.fromLanguage === "auto") return state;
-      return {
-        ...state,
-        fromLanguage: state.toLanguage,
-        toLanguage: state.fromLanguage as Language,
-        fromText: state.result,
-        result: state.fromText,
-      };
-    case "SET_FROM_LANGUAGE":
-      if (state.fromLanguage === action.payload) return state;
-      const loading = state.fromText !== "";
-      return {
-        ...state,
-        fromLanguage: action.payload,
-        result: "",
-        loading,
-      };
-    case "SET_TO_LANGUAGE":
-      if (state.toLanguage === action.payload) return state;
-      const loading = state.fromText !== "";
-      return {
-        ...state,
-        toLanguage: action.payload,
-      };
-    case "SET_FROM_TEXT":
-      return {
-        ...state,
-        loading: true,
-        fromText: action.payload,
-        result: "",
-      };
-    case "SET_RESULT":
-      return {
-        ...state,
-        loading: false,
-        result: action.payload,
-      };
-    default:
-      return state;
+  if (action.type === "SET_TO_LANGUAGE") {
+    if (state.toLanguage === action.payload) return state;
+    const loading = state.fromText !== "";
+    return {
+      ...state,
+      toLanguage: action.payload,
+      loading,
+      result: "",
+    };
   }
+
+  if (action.type === "SET_FROM_TEXT") {
+    return {
+      ...state,
+      loading: true,
+      fromText: action.payload,
+      result: "",
+    };
+  }
+
+  if (action.type === "SET_RESULT") {
+    return {
+      ...state,
+      loading: false,
+      result: action.payload,
+    };
+  }
+
+  return state;
 }
 
 export const useDataReducer = () => {
