@@ -2,10 +2,9 @@ import { useReducer } from "react";
 
 import { FromLanguage, Language } from "../types/languages";
 import { State, Action } from "../types/reducer";
-// import { AUTO_LANGUAGE } from "../constants";
 
 const initialState: State = {
-  fromLanguage: "es",
+  fromLanguage: "auto",
   toLanguage: "en",
   fromText: "",
   result: "",
@@ -46,9 +45,10 @@ function reducer(state: State, action: Action): State {
   }
 
   if (action.type === "SET_FROM_TEXT") {
+    const loading = !!state.fromText ? false : true
     return {
       ...state,
-      loading: true,
+      loading,
       fromText: action.payload,
       result: "",
     };
