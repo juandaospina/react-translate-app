@@ -14,8 +14,10 @@ const initialState: State = {
 function reducer(state: State, action: Action): State {
   if (action.type === "INTERCHANGE_LANGUAGES") {
     if (state.fromLanguage === "auto") return state;
+    const loading = !!state.fromText ? true : false;
     return {
       ...state,
+      loading,
       fromLanguage: state.toLanguage,
       toLanguage: state.fromLanguage as Language,
       fromText: state.result,
@@ -45,7 +47,7 @@ function reducer(state: State, action: Action): State {
   }
 
   if (action.type === "SET_FROM_TEXT") {
-    const loading = !!state.fromText ? false : true
+    const loading = !!state.fromText ? true : false
     return {
       ...state,
       loading,
@@ -70,7 +72,6 @@ export const useDataReducer = () => {
     useReducer(reducer, initialState);
 
   function setInterchangeLanguage() {
-    console.log("interchange_language");
     dispatch({ type: "INTERCHANGE_LANGUAGES" });
   }
 
@@ -79,6 +80,7 @@ export const useDataReducer = () => {
   }
 
   function setToLanguage(payload: Language) {
+    console.log("[set_to_language]", payload)
     dispatch({ type: "SET_TO_LANGUAGE", payload });
   }
 
@@ -93,10 +95,10 @@ export const useDataReducer = () => {
   return {
     // ↓ Properties
     fromLanguage,
-    toLanguage,
     fromText,
-    result,
     loading,
+    toLanguage,
+    result,
     // ↓ Methods
     setInterchangeLanguage,
     setFromLanguage,

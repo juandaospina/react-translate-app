@@ -1,21 +1,27 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 import { Container, Row, Col, Stack } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-import { LanguageSelector, TextArea } from "./components";
+import {
+  LanguageSelector,
+  TextArea,
+  Clipboard,
+  VoiceSound,
+} from "./components";
 import { useDataReducer } from "./hooks/useDataReducer";
 import { AUTO_LANGUAGE } from "./constants";
+import { useDebounce } from "./hooks/useDebounce";
 import { translator } from "./services/translator";
 
 export const AppRoot = () => {
   const {
-    fromText,
-    result,
     fromLanguage,
-    toLanguage,
+    fromText,
     loading,
+    toLanguage,
+    result,
     setInterchangeLanguage,
     setFromLanguage,
     setToLanguage,
@@ -24,23 +30,23 @@ export const AppRoot = () => {
   } = useDataReducer();
   const isDisabled: boolean =
     fromLanguage === AUTO_LANGUAGE || fromLanguage === toLanguage;
-  // console.log("[disabled]", isDisabled)
+  const debounceFromText = useDebounce<string>(fromText, 2000);
 
   useEffect(() => {
     (async () => {
-      if (fromText === "") return;
+      if (debounceFromText === "") return;
       try {
         const response = await translator({
           fromLanguage,
           toLanguage,
-          text: fromText,
+          text: debounceFromText,
         });
         setResult(response);
       } catch (error) {
-        console.log("[error]", error)
+        console.log("[error]", error);
       }
     })();
-  }, [fromText, toLanguage]);
+  }, [debounceFromText, fromLanguage, toLanguage]);
 
   return (
     <React.Fragment>
@@ -54,7 +60,9 @@ export const AppRoot = () => {
                 value={fromLanguage}
                 onChange={setFromLanguage}
               />
-              <TextArea onChange={setFromText} type="from" value={fromText} />
+              <div style={{ position: "relative" }}>
+                <TextArea onChange={setFromText} type="from" value={fromText} />
+              </div>
             </Stack>
           </Col>
 
@@ -65,7 +73,6 @@ export const AppRoot = () => {
               disabled={isDisabled}
             >
               <span className={!isDisabled ? "active" : "disabled"}>⇄</span>
-              {/* <Icon name="exchange" className="icon" /> */}
               {/* <span>Intercambiar</span> */}
             </button>
           </Col>
@@ -77,12 +84,26 @@ export const AppRoot = () => {
                 value={toLanguage}
                 onChange={setToLanguage}
               />
-              <TextArea
-                onChange={setResult}
-                loading={loading}
-                type="to"
-                value={result}
-              />
+              <div style={{ position: "relative" }}>
+                <TextArea
+                  onChange={setResult}
+                  loading={loading}
+                  type="to"
+                  value={result}
+                />
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "2px",
+                    position: "absolute",
+                    left: 0,
+                    bottom: 0,
+                  }}
+                >
+                  <Clipboard value={result} />
+                  <VoiceSound value={result} lang={toLanguage}/>
+                </div>
+              </div>
             </Stack>
           </Col>
         </Row>
