@@ -1,9 +1,40 @@
 #root {
   max-width: 95%;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
-  border: 1px solid blue;
+}
+
+.container {
+  margin-top: 1rem;
+}
+
+.container-language-switch {
+  display: flex;
+  gap: 8px;
+  grid-template-columns: auto, 15%, auto;
+}
+
+.container-textarea {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+  gap: 1.2rem;
+}
+
+.wrapper-info-textarea {
+  display: flex;
+  justify-content: space-between;
+}
+
+.wrapper-info-textarea > span {
+  font-size: 14px;
+  color: #BDC3C7;
+}
+
+.wrapper-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .btn-interchange {
@@ -32,3 +63,14 @@ span {
   color: #948e8e;
 }
 
+@media screen and (min-width: 840px) {
+  .container-textarea {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .wrapper-info-textarea {
+    justify-content: space-between;
+  }
+}

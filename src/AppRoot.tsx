@@ -11,7 +11,7 @@ import {
   VoiceSound,
 } from "./components";
 import { useDataReducer } from "./hooks/useDataReducer";
-import { AUTO_LANGUAGE } from "./constants";
+import { AUTO_LANGUAGE, SUPPORTED_LANGUAGES } from "./constants";
 import { useDebounce } from "./hooks/useDebounce";
 import { translator } from "./services/translator";
 
@@ -28,14 +28,16 @@ export const AppRoot = () => {
     setFromText,
     setResult,
   } = useDataReducer();
-  const isDisabled: boolean = fromLanguage === AUTO_LANGUAGE || fromLanguage === toLanguage;
+  const isDisabled: boolean =
+    fromLanguage === AUTO_LANGUAGE || fromLanguage === toLanguage;
   const debounceFromText = useDebounce<string>(fromText, 2000);
   // console.log("translations", JSON.parse(localStorage.getItem('history_translation') ?? ''))
 
   useEffect(() => {
     (async () => {
       if (debounceFromText === "") return;
-      let _history = JSON.parse(localStorage.getItem('history_translation') as string) ?? []
+      let _history =
+        JSON.parse(localStorage.getItem("history_translation") as string) ?? [];
 
       try {
         const response = await translator({
@@ -48,8 +50,11 @@ export const AppRoot = () => {
           id: window.crypto.randomUUID(),
           text: debounceFromText,
           translation: response,
-        }
-        localStorage.setItem('history_translation', JSON.stringify([..._history, newResult]))
+        };
+        localStorage.setItem(
+          "history_translation",
+          JSON.stringify([..._history, newResult])
+        );
         // console.log(_history)
       } catch (error) {
         console.log("[error]", error);
@@ -59,21 +64,15 @@ export const AppRoot = () => {
 
   return (
     <React.Fragment>
-      <h2>Google Translate Clone</h2>
-      <Container fluid>
-        <Row>
-          <Col>
-            <Stack gap={2}>
-              <LanguageSelector
-                type="from"
-                value={fromLanguage}
-                onChange={setFromLanguage}
-              />
-              <div style={{ position: "relative" }}>
-                <TextArea onChange={setFromText} type="from" value={fromText} />
-              </div>
-            </Stack>
-          </Col>
+      <h2>Translation App</h2>
+
+      <section className="container">
+        <section className="container-language-switch">
+          <LanguageSelector
+            type="from"
+            value={fromLanguage}
+            onChange={setFromLanguage}
+          />
 
           <Col>
             <button
@@ -86,37 +85,55 @@ export const AppRoot = () => {
             </button>
           </Col>
 
-          <Col>
-            <Stack gap={2}>
-              <LanguageSelector
-                type="to"
-                value={toLanguage}
-                onChange={setToLanguage}
-              />
-              <div style={{ position: "relative" }}>
-                <TextArea
-                  onChange={setResult}
-                  loading={loading}
-                  type="to"
-                  value={result}
-                />
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "2px",
-                    position: "absolute",
-                    left: 0,
-                    bottom: 0,
-                  }}
-                >
-                  <Clipboard value={result} />
-                  <VoiceSound value={result} lang={toLanguage}/>
-                </div>
+          <LanguageSelector
+            type="to"
+            value={toLanguage}
+            onChange={setToLanguage}
+          />
+        </section>
+
+        <div className="container-textarea">
+
+          <div className="wrapper-box">
+            <div className="wrapper-info-textarea">
+              <h6>Traducir de</h6>
+              <span>{fromLanguage === "auto" ? "Automático" : SUPPORTED_LANGUAGES[fromLanguage]}</span>
+            </div>
+            <div style={{ position: "relative" }}>
+              <TextArea onChange={setFromText} type="from" value={fromText} />
+            </div>
+          </div>
+
+          <div className="wrapper-box">
+            <div style={{ position: "relative" }}>
+              <div className="wrapper-info-textarea">
+                <h6>Traducir a</h6>
+                <span>{SUPPORTED_LANGUAGES[toLanguage]}</span>
               </div>
-            </Stack>
-          </Col>
-        </Row>
-      </Container>
+              <TextArea
+                onChange={setResult}
+                loading={loading}
+                type="to"
+                value={result}
+              />
+              <div
+                style={{
+                  display: "flex",
+                  gap: "2px",
+                  position: "absolute",
+                  left: 0,
+                  bottom: 0,
+                  marginBottom: 10,
+                  paddingLeft: 4
+                }}
+              >
+                <Clipboard value={result} />
+                <VoiceSound value={result} lang={toLanguage} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </React.Fragment>
   );
 };
