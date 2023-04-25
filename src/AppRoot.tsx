@@ -14,6 +14,7 @@ import { useDataReducer } from "./hooks/useDataReducer";
 import { AUTO_LANGUAGE, SUPPORTED_LANGUAGES } from "./constants";
 import { useDebounce } from "./hooks/useDebounce";
 import { translator } from "./services/translator";
+import { Header } from "./components/Header";
 
 export const AppRoot = () => {
   const {
@@ -64,7 +65,8 @@ export const AppRoot = () => {
 
   return (
     <React.Fragment>
-      <h2>Translation App</h2>
+      <Header />
+      {/* <h2>Translation App</h2> */}
 
       <section className="container">
         <section className="container-language-switch">
@@ -81,7 +83,6 @@ export const AppRoot = () => {
               disabled={isDisabled}
             >
               <span className={!isDisabled ? "active" : "disabled"}>⇄</span>
-              {/* <span>Intercambiar</span> */}
             </button>
           </Col>
 

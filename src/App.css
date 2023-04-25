@@ -5,7 +5,8 @@
 }
 
 .container {
-  margin-top: 1rem;
+  margin-top: 4.2rem;
+  /* border: 1px solid red; */
 }
 
 .container-language-switch {
@@ -24,11 +25,22 @@
 .wrapper-info-textarea {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.wrapper-info-textarea > h6 {
+  margin: 0;
 }
 
 .wrapper-info-textarea > span {
-  font-size: 14px;
-  color: #BDC3C7;
+  width: 7rem;
+  background-color: #535bf2;
+  padding: 4px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #FFF;
 }
 
 .wrapper-box {
@@ -64,6 +76,10 @@ span {
 }
 
 @media screen and (min-width: 840px) {
+  .container {
+    margin-top: 5rem;
+  }
+
   .container-textarea {
     display: flex;
     flex-direction: row;

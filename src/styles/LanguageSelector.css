@@ -4,3 +4,8 @@
   font-size: 12px;
   padding: 8px;
 }
+ @media screen and (min-width: 840px) {
+  .form-select {
+    font-size: 16px;
+  }
+ }
