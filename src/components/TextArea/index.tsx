@@ -28,11 +28,10 @@ export const TextArea: React.FC<Props> = ({
   const styles =
     type === "from"
       ? { ...commonStyles, border: "3px solid #F2F4F9" }
-      : { ...commonStyles, backgroundColor: "#F5F5F5" };
+      : { ...commonStyles, backgroundColor: "#F2F4F9" };
 
   const onInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = event.target;
-    console.log("[textarea_value]", value)
     onChange(value);
   };
 

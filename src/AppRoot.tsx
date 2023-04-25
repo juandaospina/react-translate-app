@@ -81,7 +81,6 @@ export const AppRoot = () => {
               disabled={isDisabled}
             >
               <span className={!isDisabled ? "active" : "disabled"}>⇄</span>
-              {/* <span>Intercambiar</span> */}
             </button>
           </Col>
 
