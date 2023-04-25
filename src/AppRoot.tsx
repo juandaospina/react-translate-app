@@ -28,13 +28,15 @@ export const AppRoot = () => {
     setFromText,
     setResult,
   } = useDataReducer();
-  const isDisabled: boolean =
-    fromLanguage === AUTO_LANGUAGE || fromLanguage === toLanguage;
+  const isDisabled: boolean = fromLanguage === AUTO_LANGUAGE || fromLanguage === toLanguage;
   const debounceFromText = useDebounce<string>(fromText, 2000);
+  console.log("translations", JSON.parse(localStorage.getItem('history_translation') ?? ''))
 
   useEffect(() => {
     (async () => {
       if (debounceFromText === "") return;
+      let _history = JSON.parse(localStorage.getItem('history_translation') as string) ?? []
+
       try {
         const response = await translator({
           fromLanguage,
@@ -42,6 +44,13 @@ export const AppRoot = () => {
           text: debounceFromText,
         });
         setResult(response);
+        const newResult = {
+          id: window.crypto.randomUUID(),
+          text: debounceFromText,
+          translation: response,
+        }
+        localStorage.setItem('history_translation', JSON.stringify([..._history, newResult]))
+        // console.log(_history)
       } catch (error) {
         console.log("[error]", error);
       }
