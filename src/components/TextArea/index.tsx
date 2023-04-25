@@ -35,14 +35,24 @@ export const TextArea: React.FC<Props> = ({
   };
 
   return (
-    <Form.Control
-      as="textarea"
-      autoFocus={type === "from"}
-      disabled={type === 'to'}
-      placeholder={getPlaceholder(type, loading)}
-      style={styles}
-      value={value}
-      onChange={onInputChange}
-    />
+    <React.Fragment>
+      <Form.Control
+        as="textarea"
+        autoFocus={type === "from"}
+        disabled={type === "to"}
+        placeholder={getPlaceholder(type, loading)}
+        style={styles}
+        value={value}
+        onChange={onInputChange}
+      />
+      <textarea
+        autoFocus={type === "from"}
+        disabled={type === "to"}
+        placeholder={getPlaceholder(type, loading)}
+        style={styles}
+        value={value}
+        onChange={onInputChange}
+      />
+    </React.Fragment>
   );
 };
