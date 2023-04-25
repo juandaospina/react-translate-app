@@ -2,7 +2,6 @@ import { Form } from "react-bootstrap";
 
 import { FromLanguage, Language } from "../../types/languages";
 import { AUTO_LANGUAGE, SUPPORTED_LANGUAGES } from "../../constants";
-import { useDataReducer } from "../../hooks/useDataReducer";
 import '../../styles/LanguageSelector.css';
 
 type Props = 
@@ -10,7 +9,6 @@ type Props =
   | { type: 'to', value: Language , onChange: (language: Language) => void }
 
 export const LanguageSelector: React.FC<Props> = ({ onChange, type, value }) => {
-  const { fromLanguage } = useDataReducer();
 
   const onChangeHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
