@@ -20,7 +20,7 @@ export const LanguageSelector: React.FC<Props> = ({ onChange, type, value }) => 
   }
 
   return (
-    <Form.Select aria-label="Selecciona el idioma" onChange={onChangeHandler} value={value} size="lg" className="w-200">
+    <Form.Select aria-label="Selecciona el idioma" onChange={onChangeHandler} value={value} className="">
       { type === 'from' && <option value={AUTO_LANGUAGE}>Detectar idioma</option>}
       {Object.entries(SUPPORTED_LANGUAGES).map(([key, literal]) => {
         return (

@@ -1,7 +1,8 @@
 import React from "react";
-import { Form } from "react-bootstrap";
+// import { Form } from "react-bootstrap";
 
 import { SectionType } from "../../types/languages";
+import "../../styles/Textarea.css";
 
 interface Props {
   loading?: undefined | boolean;
@@ -31,20 +32,12 @@ export const TextArea: React.FC<Props> = ({
 
   const onInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = event.target;
+    console.log("[textarea_value]", value)
     onChange(value);
   };
 
   return (
     <React.Fragment>
-      <Form.Control
-        as="textarea"
-        autoFocus={type === "from"}
-        disabled={type === "to"}
-        placeholder={getPlaceholder(type, loading)}
-        style={styles}
-        value={value}
-        onChange={onInputChange}
-      />
       <textarea
         autoFocus={type === "from"}
         disabled={type === "to"}

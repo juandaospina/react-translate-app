@@ -15,6 +15,7 @@ export async function languageDetect(query: string) {
 }
 
 export async function translator({ fromLanguage, toLanguage, text }: Props) {
+  console.log({ fromLanguage, toLanguage, text })
   let language = fromLanguage;
   if (fromLanguage === "auto") {
     language = await languageDetect(text);
