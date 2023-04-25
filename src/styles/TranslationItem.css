@@ -1,7 +1,7 @@
 .container-item {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   padding: 1rem;
   border-radius: 8px;
   background-color: #f2f4f9;

@@ -27,7 +27,7 @@ export const TranslationHistoryList: React.FC<Props> = ({ translations = [] }) =
       ) : (
         <div className="wrap-translations">
           {records?.map((translate) => (
-            <TranslationItem item={translate} />
+            <TranslationItem key={translate.id} item={translate} />
           ))}
         </div>
       )}
