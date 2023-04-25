@@ -14,7 +14,7 @@ export const SUPPORTED_LANGUAGES = {
   ru: "Ruso",
   it: "Italiano",
   zh: "Chino"
-};
+} as const;
 
 export const VOICE_FOR_LANGUAGE = {
   en: "en-GB",
