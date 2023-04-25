@@ -59,7 +59,7 @@ export const AppRoot = () => {
 
   return (
     <React.Fragment>
-      <h2>Google Translate</h2>
+      <h2>Google Translate Clone</h2>
       <Container fluid>
         <Row>
           <Col>
