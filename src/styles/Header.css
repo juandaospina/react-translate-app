@@ -1,0 +1,30 @@
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 3rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin-bottom: 5rem;
+  box-shadow: 0 0 0 1px rgba(53, 72, 91, 0.14), 0 3px 2px rgba(0, 0, 0, 0.04),
+    0 7px 7px rgba(0, 0, 0, 0.03);
+}
+
+header > h5 {
+  margin: 0;
+  padding-left: 1rem;
+}
+
+@media screen and (min-width: 840px) {
+  header {
+    height: 3.5rem;
+    justify-content: start;
+  }
+
+  header > h5 {
+    padding-left: 3rem;
+  }
+}

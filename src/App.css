@@ -5,7 +5,8 @@
 }
 
 .container {
-  margin-top: 1rem;
+  margin-top: 4.2rem;
+  /* border: 1px solid red; */
 }
 
 .container-language-switch {
@@ -75,6 +76,10 @@ span {
 }
 
 @media screen and (min-width: 840px) {
+  .container {
+    margin-top: 5rem;
+  }
+
   .container-textarea {
     display: flex;
     flex-direction: row;
