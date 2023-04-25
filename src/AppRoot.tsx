@@ -30,7 +30,7 @@ export const AppRoot = () => {
   } = useDataReducer();
   const isDisabled: boolean = fromLanguage === AUTO_LANGUAGE || fromLanguage === toLanguage;
   const debounceFromText = useDebounce<string>(fromText, 2000);
-  console.log("translations", JSON.parse(localStorage.getItem('history_translation') ?? ''))
+  // console.log("translations", JSON.parse(localStorage.getItem('history_translation') ?? ''))
 
   useEffect(() => {
     (async () => {
