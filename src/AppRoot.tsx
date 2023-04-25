@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./App.css";
 
-import { Container, Row, Col, Stack } from "react-bootstrap";
+import { Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import {
