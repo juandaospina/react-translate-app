@@ -1,0 +1,25 @@
+.wrap-translations {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 2rem;
+  border: 1px solid red;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 1.2rem 0;
+}
+
+.title > h4 {
+  margin: 0;
+}
+
+@media screen and (min-width: 840px) {
+  .wrap-translations {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

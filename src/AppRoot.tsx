@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 
 import { Col } from "react-bootstrap";
@@ -9,12 +9,14 @@ import {
   TextArea,
   Clipboard,
   VoiceSound,
+  TranslationHistoryList,
 } from "./components";
 import { useDataReducer } from "./hooks/useDataReducer";
 import { AUTO_LANGUAGE, SUPPORTED_LANGUAGES } from "./constants";
 import { useDebounce } from "./hooks/useDebounce";
 import { translator } from "./services/translator";
 import { Header } from "./components/Header";
+import { RecordTranslation } from "./types/history";
 
 export const AppRoot = () => {
   const {
@@ -29,6 +31,16 @@ export const AppRoot = () => {
     setFromText,
     setResult,
   } = useDataReducer();
+  const element = {
+    id: "h739dk-09dks20-91992-0101",
+    from: "Español",
+    to: "English",
+    text: "Es un placer estar aquí",
+    translation: "It is a pleasure to be here"
+  }
+  localStorage.setItem('history_translation', JSON.stringify([element]))
+  const _list = JSON.parse(localStorage.getItem('history_translation') ?? '')
+  const [translationList, setTranslationList] = useState<RecordTranslation[]>(_list);
   const isDisabled: boolean =
     fromLanguage === AUTO_LANGUAGE || fromLanguage === toLanguage;
   const debounceFromText = useDebounce<string>(fromText, 2000);
@@ -49,14 +61,20 @@ export const AppRoot = () => {
         setResult(response);
         const newResult = {
           id: window.crypto.randomUUID(),
+          from:
+            fromLanguage === "auto"
+              ? "Automático"
+              : SUPPORTED_LANGUAGES[fromLanguage],
+          to: SUPPORTED_LANGUAGES[toLanguage],
           text: debounceFromText,
           translation: response,
         };
+        const translations = [..._history, newResult];
         localStorage.setItem(
           "history_translation",
-          JSON.stringify([..._history, newResult])
+          JSON.stringify(translations)
         );
-        // console.log(_history)
+        setTranslationList(translations);
       } catch (error) {
         console.log("[error]", error);
       }
@@ -66,8 +84,6 @@ export const AppRoot = () => {
   return (
     <React.Fragment>
       <Header />
-      {/* <h2>Translation App</h2> */}
-
       <section className="container">
         <section className="container-language-switch">
           <LanguageSelector
@@ -94,11 +110,14 @@ export const AppRoot = () => {
         </section>
 
         <div className="container-textarea">
-
           <div className="wrapper-box">
             <div className="wrapper-info-textarea">
               <h6>Traducir de</h6>
-              <span>{fromLanguage === "auto" ? "Automático" : SUPPORTED_LANGUAGES[fromLanguage]}</span>
+              <span>
+                {fromLanguage === "auto"
+                  ? "Automático"
+                  : SUPPORTED_LANGUAGES[fromLanguage]}
+              </span>
             </div>
             <div style={{ position: "relative" }}>
               <TextArea onChange={setFromText} type="from" value={fromText} />
@@ -125,7 +144,7 @@ export const AppRoot = () => {
                   left: 0,
                   bottom: 0,
                   marginBottom: 10,
-                  paddingLeft: 4
+                  paddingLeft: 4,
                 }}
               >
                 <Clipboard value={result} />
@@ -134,7 +153,11 @@ export const AppRoot = () => {
             </div>
           </div>
         </div>
+        <section>
+          <TranslationHistoryList translations={translationList} />
+        </section>
       </section>
+
     </React.Fragment>
   );
 };
