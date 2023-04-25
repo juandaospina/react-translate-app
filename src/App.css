@@ -17,8 +17,6 @@
   transition: border-color 0.25s;
   border-color: #000000;
   gap: .5rem;
-  /* display: flex; */
-  /* background-color: #5F5FF6; */
 }
 
 span {
@@ -28,7 +26,6 @@ span {
 
 .active {
   color: #000000;
-  /* border-color: #5F5FF6; */
 }
 .disabled {
   color: #948e8e;
