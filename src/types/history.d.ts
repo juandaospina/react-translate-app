@@ -4,7 +4,7 @@ export type Language = typeof SUPPORTED_LANGUAGES[keyof typeof SUPPORTED_LANGUAG
 
 export interface RecordTranslation {
   id: string;
-  from: Language;
+  from: string;
   to: string;
   text: string;
   translation: string;

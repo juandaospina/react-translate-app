@@ -31,26 +31,28 @@ export const AppRoot = () => {
     setFromText,
     setResult,
   } = useDataReducer();
-  const element = {
-    id: "h739dk-09dks20-91992-0101",
-    from: "Español",
-    to: "English",
-    text: "Es un placer estar aquí",
-    translation: "It is a pleasure to be here"
-  }
-  localStorage.setItem('history_translation', JSON.stringify([element]))
-  const _list = JSON.parse(localStorage.getItem('history_translation') ?? '')
-  const [translationList, setTranslationList] = useState<RecordTranslation[]>(_list);
+  const [translationList, setTranslationList] = useState<RecordTranslation[]>([]);
   const isDisabled: boolean =
     fromLanguage === AUTO_LANGUAGE || fromLanguage === toLanguage;
   const debounceFromText = useDebounce<string>(fromText, 2000);
-  // console.log("translations", JSON.parse(localStorage.getItem('history_translation') ?? ''))
+
+  useEffect(() => {
+    console.log("[first_useEffect]")
+    const elementList = JSON.parse(localStorage.getItem('history_translation') as string) ?? []
+    if (elementList.length > 0) {
+      setTranslationList(elementList);
+    } else {
+      localStorage.setItem('history_translation', JSON.stringify([]))
+      localStorage.setItem('latest', ' ');
+    }
+  }, [])
 
   useEffect(() => {
     (async () => {
       if (debounceFromText === "") return;
-      let _history =
-        JSON.parse(localStorage.getItem("history_translation") as string) ?? [];
+      let _history = JSON.parse(
+        localStorage.getItem("history_translation"
+      ) as string) ?? [];
 
       try {
         const response = await translator({
@@ -58,23 +60,28 @@ export const AppRoot = () => {
           toLanguage,
           text: debounceFromText,
         });
+        localStorage.setItem('last_translation', response)
         setResult(response);
-        const newResult = {
-          id: window.crypto.randomUUID(),
-          from:
-            fromLanguage === "auto"
-              ? "Automático"
-              : SUPPORTED_LANGUAGES[fromLanguage],
-          to: SUPPORTED_LANGUAGES[toLanguage],
-          text: debounceFromText,
-          translation: response,
-        };
-        const translations = [..._history, newResult];
-        localStorage.setItem(
-          "history_translation",
-          JSON.stringify(translations)
-        );
-        setTranslationList(translations);
+        const _lastTranslation = localStorage.getItem('latest');
+        console.log("[last_translation]", _lastTranslation != response )
+        if (response != _lastTranslation) {
+          const newResult = {
+            id: window.crypto.randomUUID(),
+            from:
+              fromLanguage === "auto"
+                ? "Automático"
+                : SUPPORTED_LANGUAGES[fromLanguage],
+            to: SUPPORTED_LANGUAGES[toLanguage],
+            text: debounceFromText,
+            translation: response,
+          };
+          const translations = [..._history, newResult];
+          localStorage.setItem(
+            "history_translation",
+            JSON.stringify(translations)
+          );
+          setTranslationList(translations);
+        } 
       } catch (error) {
         console.log("[error]", error);
       }

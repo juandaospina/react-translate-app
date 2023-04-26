@@ -1,5 +1,4 @@
-import React from "react";
-// import { Form } from "react-bootstrap";
+import React, { useMemo } from "react";
 
 import { SectionType } from "../../types/languages";
 import "../../styles/Textarea.css";
@@ -25,14 +24,24 @@ export const TextArea: React.FC<Props> = ({
   onChange,
   value,
 }) => {
+
+  const _text = useMemo(() => {
+    return value;
+  }, [value])
+
   const styles =
     type === "from"
       ? { ...commonStyles, border: "3px solid #F2F4F9" }
       : { ...commonStyles, backgroundColor: "#F2F4F9" };
 
   const onInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if(type === "from") {
+      const elementList = JSON.parse(localStorage.getItem("history_translation") as string) ?? [];
+      const latest = elementList.length > 0 ? elementList.slice(-1)[0].translation : '_x';
+      localStorage.setItem('latest', latest);
+    }
     const { value } = event.target;
-    onChange(value);
+    onChange(value);            
   };
 
   return (
@@ -42,7 +51,7 @@ export const TextArea: React.FC<Props> = ({
         disabled={type === "to"}
         placeholder={getPlaceholder(type, loading)}
         style={styles}
-        value={value}
+        value={_text}
         onChange={onInputChange}
       />
     </React.Fragment>
