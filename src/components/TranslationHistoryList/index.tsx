@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 
 import { RecordTranslation } from "../../types/history";
 import { IconHistory } from "../Icons/history";
@@ -10,10 +10,14 @@ interface Props {
 }
 
 export const TranslationHistoryList: React.FC<Props> = ({ translations = [] }) => {
-  const [records, setRecords] = useState<RecordTranslation[]>();
 
-  useMemo(() => {
-    setRecords(translations);
+  const list = useMemo(() => {
+    return translations.map(item => {
+      return {
+        ...item,
+        create: false
+      }
+    })
   }, [translations]);
 
   return (
@@ -26,7 +30,7 @@ export const TranslationHistoryList: React.FC<Props> = ({ translations = [] }) =
         <h6>No se encontraron resultados</h6>
       ) : (
         <div className="wrap-translations">
-          {records?.map((translate) => (
+          {list?.map((translate) => (
             <TranslationItem key={translate.id} item={translate} />
           ))}
         </div>

@@ -80,7 +80,6 @@ export const useDataReducer = () => {
   }
 
   function setToLanguage(payload: Language) {
-    console.log("[set_to_language]", payload)
     dispatch({ type: "SET_TO_LANGUAGE", payload });
   }
 
