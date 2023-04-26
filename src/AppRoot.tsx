@@ -37,7 +37,6 @@ export const AppRoot = () => {
   const debounceFromText = useDebounce<string>(fromText, 2000);
 
   useEffect(() => {
-    console.log("[first_useEffect]")
     const elementList = JSON.parse(localStorage.getItem('history_translation') as string) ?? []
     if (elementList.length > 0) {
       setTranslationList(elementList);
@@ -63,7 +62,6 @@ export const AppRoot = () => {
         localStorage.setItem('last_translation', response)
         setResult(response);
         const _lastTranslation = localStorage.getItem('latest');
-        console.log("[last_translation]", _lastTranslation != response )
         if (response != _lastTranslation) {
           const newResult = {
             id: window.crypto.randomUUID(),
