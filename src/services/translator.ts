@@ -10,7 +10,8 @@ interface Props {
 export async function translator({ fromLanguage, toLanguage, text }: Props) {
   const params = `q=${text}&source=${fromLanguage}&target=${toLanguage}`;
   const response = await instance.post(`/translate?${params}`).then((res) => {
-    return res.data.translation;
+    console.log("[response_translate]", res)
+    return res.data.data.translation;
   })
   .catch(err => {
     console.log("[err_translate]", err)
