@@ -47,7 +47,7 @@ export const TextArea: React.FC<Props> = ({
   return (
     <React.Fragment>
       <textarea
-        autoFocus={type === "from"}
+        // autoFocus={type === "from"}
         disabled={type === "to"}
         placeholder={getPlaceholder(type, loading)}
         style={styles}
