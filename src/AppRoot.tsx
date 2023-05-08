@@ -52,6 +52,9 @@ export const AppRoot = () => {
       let _history = JSON.parse(
         localStorage.getItem("history_translation"
       ) as string) ?? [];
+      if (_history.length === 9) {
+        _history.shift();
+      }
 
       try {
         const response = await translator({
@@ -62,7 +65,7 @@ export const AppRoot = () => {
         localStorage.setItem('last_translation', response)
         setResult(response);
         const _lastTranslation = localStorage.getItem('latest');
-        if (response != _lastTranslation) {
+        if (response !== _lastTranslation) {
           const newResult = {
             id: window.crypto.randomUUID(),
             from:
@@ -73,7 +76,7 @@ export const AppRoot = () => {
             text: debounceFromText,
             translation: response,
           };
-          const translations = [..._history, newResult];
+          const translations = [..._history, newResult].reverse();
           localStorage.setItem(
             "history_translation",
             JSON.stringify(translations)
